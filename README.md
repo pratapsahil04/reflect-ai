@@ -200,3 +200,37 @@ The evaluation covers:
 Live execution of these cases requires available Gemini API quota.
 No companion evaluation accuracy is reported until the live cases
 have been executed.
+
+## 📌 Project Status
+
+### Completed
+
+- [x] Streamlit journaling interface
+- [x] Gemini-powered reflective companion
+- [x] Deterministic safety classification
+- [x] Crisis response system
+- [x] Elevated-risk response system
+- [x] Configurable crisis helplines
+- [x] Mood extraction
+- [x] Local mood fallback
+- [x] SQLite mood storage
+- [x] Interactive Plotly dashboard
+- [x] Weekly reflection summary
+- [x] Automated safety tests
+- [x] 50-case safety evaluation
+- [x] Companion behavioral evaluation framework
+- [x] Privacy-focused local data storage
+- [x] GitHub repository and documentation
+
+### Evaluation Status
+
+**Safety classifier:** Internally evaluated on 50 developer-created cases with 100% accuracy.
+
+**Companion behavioral evaluation:** Evaluation framework implemented with 18 cases. Live execution is pending Gemini API quota availability.
+
+### Current Limitations
+
+- The safety classifier is rule-based and cannot guarantee detection of every real-world crisis statement.
+- The companion model depends on Gemini API availability and quota.
+- Mood analysis is an approximate reflection aid and is not a clinical assessment.
+- The system has not undergone clinical validation or evaluation on a clinical population.
