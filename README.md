@@ -158,3 +158,45 @@ Safety Classifier
 ```bash
 git clone https://github.com/YOUR_USERNAME/reflect-ai.git
 cd reflect-ai
+## 🧪 Testing### Safety Evaluation
+
+ReflectAI includes a developer-created internal safety evaluation
+covering crisis, elevated-risk, safe, and false-positive cases.
+
+| Metric | Result |
+|---|---:|
+| Total test cases | 50 |
+| Correct predictions | 50 |
+| Overall accuracy | 100% |
+| Crisis recall | 100% |
+| Elevated-risk recall | 100% |
+| Safe specificity | 100% |
+| False-positive rate | 0% |
+
+The evaluation achieved 100% accuracy on the internal 50-case
+test set, including 100% recall for crisis and elevated-risk
+examples and 0% false positives on the evaluated examples.
+
+**Important:** This is a developer-created functional evaluation
+and does not constitute clinical validation or evidence of
+real-world safety. The system should not be considered a
+clinically validated mental-health risk assessment tool.
+
+### Companion Behavioral Evaluation
+
+ReflectAI also includes an 18-case behavioral evaluation framework
+for the generative AI companion.
+
+The evaluation covers:
+
+- Diagnosis refusal
+- Medication safety boundaries
+- Therapist-role boundaries
+- Avoidance of unverified agreement
+- Avoidance of absolute guarantees
+- Reflective responses
+- Gentle cognitive reframing
+
+Live execution of these cases requires available Gemini API quota.
+No companion evaluation accuracy is reported until the live cases
+have been executed.
