@@ -1,193 +1,235 @@
 # ReflectAI 🧠
-
 ### Privacy-First AI Journaling and Reflection Companion
 
-ReflectAI is a privacy-oriented AI journaling application designed to help users reflect on their thoughts, emotions, and everyday experiences.
+ReflectAI is a privacy-oriented AI journaling application that helps users reflect on their thoughts, emotions, and everyday experiences.
 
-The system combines a deterministic safety classifier, an AI reflection companion, mood analysis, local SQLite storage, and an interactive mood dashboard.
+It combines a deterministic safety classifier, an AI reflection companion powered by Google Gemini, mood analysis, local SQLite storage, and an interactive dashboard.
 
-ReflectAI is designed as a journaling and reflection tool rather than a replacement for professional mental-health care.
+> **Important:** ReflectAI is a journaling and reflection tool, not a replacement for professional mental-health care.
 
 ---
 
 ## 🌱 Overview
 
-Journaling can help people organize their thoughts, recognize emotional patterns, and reflect on everyday experiences.
-
 ReflectAI provides an interactive environment where users can:
 
-- Write journal entries
+- Write and review journal entries
 - Receive reflective AI responses
-- Identify mood and emotions
+- Identify moods and emotions
 - Track mood patterns over time
 - Review recurring themes
 - Generate weekly reflection summaries
 - Receive safety-oriented responses when high-risk language is detected
 
-A key design principle of ReflectAI is that **safety classification runs before normal AI generation**.
+**Core design principle:** Safety classification runs before normal AI generation, allowing the application to route detected high-risk messages to dedicated safety responses.
 
-This prevents potentially high-risk messages from being passed directly to the normal conversational companion.
+## ✨ Key Features
 
----
+### 💬 AI Journaling Companion
 
-# ✨ Key Features
+The AI companion is designed to acknowledge emotions, encourage self-reflection, ask open-ended questions, explore thought patterns, and suggest simple CBT-inspired reflection exercises.
 
-## 💬 AI Journaling Companion
+It is instructed not to diagnose conditions, prescribe or recommend medication changes, claim to provide therapy, make clinical judgments, encourage emotional dependency, or provide false reassurance.
 
-ReflectAI provides reflective responses designed to:
+### 🛡️ Safety Classification
 
-- Acknowledge emotions
-- Encourage self-reflection
-- Ask open-ended questions
-- Identify thoughts and patterns
-- Suggest simple CBT-inspired reflection exercises
-- Encourage practical next steps
+The safety layer categorizes messages into three levels:
 
-The companion is explicitly instructed not to:
-
-- Diagnose mental-health conditions
-- Prescribe medication
-- Recommend medication changes
-- Claim to provide therapy
-- Make clinical judgments
-- Encourage emotional dependency
-- Provide false reassurance
-
----
-
-## 🛡️ Safety Classification
-
-Every user message is checked by the safety layer before normal AI generation.
-
-The classifier categorizes messages into:
+- `none`: No elevated-risk category detected by the classifier
+- `elevated`: Elevated-risk language requiring a safety-aware response
+- `crisis`: Crisis-related language requiring a predefined crisis response
 
 ```text
-none
-elevated
-crisis
-
 User Message
-     │
-     ▼
+     |
+     v
 Safety Classifier
-     │
-     ├── crisis
-     │      │
-     │      ▼
-     │  Fixed Crisis Response
-     │      │
-     │      ▼
-     │  Helplines / Emergency Guidance
-     │
-     ├── elevated
-     │      │
-     │      ▼
-     │  Safety-Aware Response
-     │
-     └── none
-            │
-            ▼
-       AI Companion
-            │
-            ▼
-       Mood Extraction
-            │
-            ▼
-       SQLite Storage---
+     |
+     +---- Crisis ----> Fixed Crisis Response
+     |                       |
+     |                       v
+     |                Helplines / Guidance
+     |
+     +---- Elevated --> Safety-Aware Response
+     |
+     +---- None ------> Gemini AI Companion
+                              |
+                              v
+                        Mood Extraction
+                              |
+                              v
+                        SQLite Storage
+```
+
+The classifier uses deterministic rules. It is not a clinically validated risk assessment system and cannot guarantee detection of every crisis statement.
+
+### 📊 Mood Tracking and Analytics
+
+- Mood extraction with a local fallback
+- Historical mood tracking using SQLite
+- Interactive visualizations using Plotly
+- Emotion and recurring-theme analysis
+- Dashboard metrics and journal activity views
+
+### 📝 Journal Management
+
+- Browse journal entries
+- Search journal content
+- Explore tags and categories
+- Use reflection templates
+- View journal activity in a calendar
+- Review insights and weekly summaries
+
+### 🔒 Privacy-Focused Storage
+
+Journal records are stored locally in SQLite. The application also uses the Google Gemini API for AI-powered features, so data sent to that external service may be processed according to Google's applicable terms and privacy policies.
+
+Local database storage does not mean that all processing is offline. Review what information is sent to the AI service before using the application with sensitive journal content.
+
+---
 
 ## 🧩 System Architecture
 
 ```text
 User
- │
- ▼
+ |
+ v
 Streamlit Interface
- │
- ▼
+ |
+ v
 Safety Classifier
- │
- ├── Crisis ───────► Crisis Response + Helplines
- │
- ├── Elevated ─────► Safety-Aware Response
- │
- └── Safe
-       │
-       ▼
-   Gemini AI Companion
-       │
-       ▼
-   Mood Extraction
-       │
-       ▼
-   SQLite Database
-       │
-       ▼
-   Plotly Dashboard---
+ |
+ +---- Crisis ------> Predefined Crisis Response
+ |                           |
+ |                           v
+ |                    Helpline Guidance
+ |
+ +---- Elevated ---> Safety-Aware Response
+ |
+ +---- None --------> Gemini AI Companion
+                            |
+                            v
+                      Mood Extraction
+                            |
+                            v
+                      SQLite Database
+                            |
+                            v
+                     Plotly Dashboard
+```
 
-## 🚀 Technology Stack
+## 🛠️ Technology Stack
 
 | Component | Technology |
 |---|---|
-| Frontend | Streamlit |
-| AI Model | Google Gemini |
-| Programming Language | Python |
-| Safety Layer | Deterministic Rule-Based Classifier |
-| Mood Analysis | Gemini + Local Fallback |
+| User interface | Streamlit |
+| AI model | Google Gemini API |
+| Programming language | Python |
+| Safety layer | Deterministic rule-based classifier |
+| Mood analysis | Gemini with local fallback |
 | Database | SQLite |
-| Data Analysis | Pandas |
+| Data analysis | Pandas |
 | Visualization | Plotly |
-| Data Validation | Pydantic |
-| Environment Management | Python Virtual Environment |
+| Data validation | Pydantic |
 | Testing | Pytest |
-| Configuration | python-dotenv |
+| Environment configuration | python-dotenv |
+| Version control | Git and GitHub |
 
 ### Core Python Libraries
 
-- `google-genai`
-- `streamlit`
-- `pydantic`
-- `pandas`
-- `plotly`
-- `python-dotenv`
-- `pytest`---
+`google-genai`, `streamlit`, `pydantic`, `pandas`, `plotly`, `python-dotenv`, and `pytest`.
 
-## ⚙️ Installation
+---
+
+## ⚙️ Installation and Setup
+
+### Prerequisites
+
+- Python installed on your system
+- Git
+- A Google Gemini API key for AI-powered features
 
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/reflect-ai.git
+git clone https://github.com/pratapsahil04/reflect-ai.git
 cd reflect-ai
-## 🧪 Testing### Safety Evaluation
+```
 
-ReflectAI includes a developer-created internal safety evaluation
-covering crisis, elevated-risk, safe, and false-positive cases.
+### 2. Create a virtual environment
+
+**Windows PowerShell**
+
+```powershell
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+```
+
+### 3. Install dependencies
+
+```powershell
+pip install -r requirements.txt
+```
+
+### 4. Configure environment variables
+
+Create a `.env` file in the project root:
+
+```text
+GEMINI_API_KEY=your_gemini_api_key
+```
+
+Use the exact variable name expected by your application configuration if it differs.
+
+**Security:** Never commit `.env`, API keys, journal databases, or real private journal entries to GitHub.
+
+### 5. Run the application
+
+```powershell
+streamlit run app.py
+```
+
+Streamlit will display a local URL in the terminal. Open that URL in your browser.
+
+---
+
+## 🧪 Testing and Evaluation
+
+### Automated Tests
+
+Run the test suite:
+
+```powershell
+pytest
+```
+
+The existing test suite previously passed six tests. Run it again after making changes to confirm the current result.
+
+### Safety Classifier Evaluation
+
+The developer-created internal evaluation produced the following results:
 
 | Metric | Result |
 |---|---:|
-| Total test cases | 50 |
+| Test cases | 50 |
 | Correct predictions | 50 |
-| Overall accuracy | 100% |
-| Crisis recall | 100% |
-| Elevated-risk recall | 100% |
-| Safe specificity | 100% |
-| False-positive rate | 0% |
+| Accuracy on the test set | 100% |
+| Crisis recall on the test set | 100% |
+| Elevated-risk recall on the test set | 100% |
+| Safe specificity on the test set | 100% |
+| False-positive rate on the test set | 0% |
 
-The evaluation achieved 100% accuracy on the internal 50-case
-test set, including 100% recall for crisis and elevated-risk
-examples and 0% false positives on the evaluated examples.
+These results apply only to the 50 developer-created evaluation cases. They do not establish real-world reliability, clinical validity, or guaranteed crisis detection.
 
-**Important:** This is a developer-created functional evaluation
-and does not constitute clinical validation or evidence of
-real-world safety. The system should not be considered a
-clinically validated mental-health risk assessment tool.
+Run the evaluation with:
+
+```powershell
+python tests/run_evaluation.py
+```
 
 ### Companion Behavioral Evaluation
 
-ReflectAI also includes an 18-case behavioral evaluation framework
-for the generative AI companion.
-
-The evaluation covers:
+An 18-case evaluation framework covers:
 
 - Diagnosis refusal
 - Medication safety boundaries
@@ -197,40 +239,57 @@ The evaluation covers:
 - Reflective responses
 - Gentle cognitive reframing
 
-Live execution of these cases requires available Gemini API quota.
-No companion evaluation accuracy is reported until the live cases
-have been executed.
+Live evaluation requires available Gemini API quota. No companion evaluation accuracy is claimed until the cases have been executed and results recorded.
+
+Run it with:
+
+```powershell
+python tests/run_companion_evaluation.py
+```
+
+---
 
 ## 📌 Project Status
 
-### Completed
+### Implemented
 
 - [x] Streamlit journaling interface
 - [x] Gemini-powered reflective companion
 - [x] Deterministic safety classification
-- [x] Crisis response system
-- [x] Elevated-risk response system
+- [x] Predefined crisis responses
+- [x] Elevated-risk response handling
 - [x] Configurable crisis helplines
-- [x] Mood extraction
-- [x] Local mood fallback
+- [x] Mood extraction and local fallback
 - [x] SQLite mood storage
-- [x] Interactive Plotly dashboard
+- [x] Interactive dashboard and visualizations
 - [x] Weekly reflection summary
+- [x] Journal search and analysis
+- [x] Journal templates, tags, and calendar view
 - [x] Automated safety tests
-- [x] 50-case safety evaluation
+- [x] Internal 50-case safety evaluation
 - [x] Companion behavioral evaluation framework
-- [x] Privacy-focused local data storage
 - [x] GitHub repository and documentation
-
-### Evaluation Status
-
-**Safety classifier:** Internally evaluated on 50 developer-created cases with 100% accuracy.
-
-**Companion behavioral evaluation:** Evaluation framework implemented with 18 cases. Live execution is pending Gemini API quota availability.
 
 ### Current Limitations
 
-- The safety classifier is rule-based and cannot guarantee detection of every real-world crisis statement.
-- The companion model depends on Gemini API availability and quota.
-- Mood analysis is an approximate reflection aid and is not a clinical assessment.
-- The system has not undergone clinical validation or evaluation on a clinical population.
+- The rule-based classifier may miss nuanced or indirect crisis statements.
+- Gemini-powered features depend on API availability and quota.
+- Mood analysis is approximate and is not a clinical assessment.
+- The application has not undergone clinical validation or testing on a clinical population.
+- Local SQLite storage does not eliminate the privacy considerations associated with external API processing.
+
+## 🔮 Future Improvements
+
+- Expand safety evaluation with more diverse, independently reviewed cases.
+- Complete and document live companion behavioral evaluation.
+- Add stronger automated regression tests.
+- Improve configurable privacy controls and data export/deletion workflows.
+- Evaluate additional AI models and fallback strategies.
+
+## ⚖️ Disclaimer
+
+ReflectAI is an experimental journaling and reflection application. It is not a medical device, diagnostic system, or substitute for professional mental-health care. Its safety classifier can make mistakes and must not be relied upon as the sole means of identifying or managing a crisis.
+
+## 📄 License
+
+This project is distributed under the MIT License. See [`LICENSE`](LICENSE) for details, if the repository's license file is present.
